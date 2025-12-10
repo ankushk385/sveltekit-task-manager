@@ -1,19 +1,26 @@
 <script>
+  import "../app.css";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-
   let user = null;
 
   onMount(() => {
     const token = localStorage.getItem("token");
-    if (!token) goto("/login");
+    const path = $page.url.pathname;
 
-    // decode JWT just to get email (optional)
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      user = payload;
-    } catch (e) {
+    if (!token && path !== "/login" && path !== "/register") {
       goto("/login");
+    }
+
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        user = payload;
+      } catch (e) {
+        localStorage.removeItem("token");
+        if (path !== "/login" && path !== "/register") goto("/login");
+      }
     }
   });
 

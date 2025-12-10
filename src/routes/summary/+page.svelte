@@ -1,8 +1,13 @@
 <script>
   import { onMount } from "svelte";
+  import { Chart, ArcElement, Tooltip, Legend, PieController } from "chart.js";
+
+  Chart.register(ArcElement, Tooltip, Legend, PieController);
 
   let tasks = [];
   let today = new Date();
+  let pieChart;
+
   let totals = {
     time: 0,
     completed: 0,
@@ -15,7 +20,7 @@
     return d.toDateString() === today.toDateString();
   }
 
-  onMount(async () => {
+  async function loadData() {
     const token = localStorage.getItem("token");
 
     const res = await fetch("/api/tasks", {
@@ -32,10 +37,38 @@
         if (t.status === "In Progress") totals.inProgress++;
       }
     });
+  }
+
+  onMount(async () => {
+    await loadData();
+
+    const ctx = document.getElementById("pieChart");
+
+    pieChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Completed", "Pending", "In Progress"],
+        datasets: [
+          {
+            label: "Task Status",
+            data: [totals.completed, totals.pending, totals.inProgress],
+            backgroundColor: ["#4ade80", "#fbbf24", "#60a5fa"],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        plugins: { legend: { position: "bottom" } },
+      },
+    });
   });
 </script>
 
-<h1>Daily Summary</h1>
+<h2>Task Status Breakdown</h2>
+
+<div style="width: 350px; height: 350px;">
+  <canvas id="pieChart"></canvas>
+</div>
 
 <p>
   <strong>Total Time Today:</strong>

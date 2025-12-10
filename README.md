@@ -27,4 +27,8 @@ The UI is intentionally simple — the focus is backend logic + learning SvelteK
 - JWT for authentication
 - bcryptjs for hashing passwords
 
-## Folder Overview
+## Starting instruction
+
+- cd sveltekit-task-manager
+- npm install
+- npm run dev

@@ -3,8 +3,8 @@
 
   let email = "";
   let password = "";
-  let error = "";
-  let msg;
+  let msg = "";
+
   async function loginUser() {
     const res = await fetch("/api/login", {
       method: "POST",
@@ -18,37 +18,43 @@
       localStorage.setItem("token", data.token);
       window.location.href = "/dashboard";
     } else {
-      msg = data.error;
+      msg = data.error || "Login failed";
     }
-
-    // Redirect
-    // window.location.href = "/dashboard";
   }
 </script>
 
-<h1>Login</h1>
+<main class="auth-box">
+  <h1>Login</h1>
 
-<form on:submit|preventDefault={loginUser}>
-  <input placeholder="email" bind:value={email} required />
-  <input
-    type="password"
-    placeholder="Password"
-    bind:value={password}
-    required
-  />
-  <button>Login</button>
+  <form on:submit|preventDefault={loginUser}>
+    <label>
+      Email
+      <input
+        type="email"
+        bind:value={email}
+        placeholder="your@email.com"
+        required
+      />
+    </label>
 
-  {#if error}
-    <p style="color:red">{error}</p>
-  {/if}
-</form>
+    <label>
+      Password
+      <input
+        type="password"
+        bind:value={password}
+        placeholder="••••••••"
+        required
+      />
+    </label>
 
-<style>
-  form {
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    gap: 10px;
-    margin-top: 20px;
-  }
-</style>
+    <button type="submit">Login</button>
+    <p>
+      Don’t have an account?
+      <a href="/register">Register</a>
+    </p>
+
+    {#if msg}
+      <p class="contrast" style="color: var(--pico-del-color);">{msg}</p>
+    {/if}
+  </form>
+</main>

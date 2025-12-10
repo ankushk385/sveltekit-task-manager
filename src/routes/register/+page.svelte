@@ -27,7 +27,7 @@
   }
 </script>
 
-<div class="container">
+<div class="auth-box">
   <h2>Register</h2>
 
   <form on:submit={handleRegister}>
@@ -38,6 +38,10 @@
     <input type="password" placeholder="Password" bind:value={password} />
 
     <button type="submit">Create Account</button>
+    <p>
+      Already have an account?
+      <a href="/login">Login</a>
+    </p>
   </form>
 
   {#if error}

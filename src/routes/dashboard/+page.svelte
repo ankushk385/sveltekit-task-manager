@@ -65,27 +65,26 @@
 
 <h1>Dashboard</h1>
 
-<input
-  bind:value={newTask}
-  placeholder="Quick add task..."
-  style="padding:8px; width:250px;"
-/>
-<button on:click={addTask}>Add</button>
+<div class="grid gap-2 mb-2">
+  <input
+    class="form-control"
+    bind:value={newTask}
+    placeholder="Quick add task..."
+  />
+  <button class="btn btn-primary btn-sm add-btn" on:click={addTask}>Add</button>
+</div>
 
 <hr />
 
 {#each tasks as t}
-  <div style="margin:10px 0; padding:10px; border:1px solid #ddd;">
+  <article class="card mb-2 p-2">
     <h3>{t.title}</h3>
     <p>Status: {t.status}</p>
-
     <p>Total Time: {Math.floor(t.totalTime / 1000 / 60)} mins</p>
-
     <a href={"/tasks/" + t._id}>View / Edit</a>
-
-    <div style="margin-top:10px;">
+    <div class="flex gap-1 mt-1">
       <button on:click={() => start(t._id)}>Start</button>
       <button on:click={() => stop(t._id)}>Stop</button>
     </div>
-  </div>
+  </article>
 {/each}

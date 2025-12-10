@@ -23,20 +23,13 @@
 
 <h1>Create Task</h1>
 
-<input
-  bind:value={raw}
-  placeholder="Natural language input"
-  style="width:300px; padding:6px;"
-/>
-<input
-  bind:value={title}
-  placeholder="Title"
-  style="display:block; margin-top:8px; padding:6px;"
-/>
-<textarea
-  bind:value={description}
-  placeholder="Description"
-  style="width:300px; height:80px; margin-top:8px;"
-></textarea>
-
-<button on:click={save} style="margin-top:10px;">Save</button>
+<form
+  on:submit|preventDefault={save}
+  style="max-width:350px; display:flex; flex-direction:column; gap:8px;"
+>
+  <input bind:value={raw} placeholder="Natural language input" required />
+  <input bind:value={title} placeholder="Title" required />
+  <textarea bind:value={description} placeholder="Description" rows="4"
+  ></textarea>
+  <button type="submit">Save</button>
+</form>
