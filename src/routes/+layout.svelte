@@ -1,5 +1,5 @@
 <script>
-  import "../app.css";
+  import "$lib/styles/app.css";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
