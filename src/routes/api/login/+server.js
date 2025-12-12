@@ -10,7 +10,6 @@ export async function POST({ request }) {
   const users = db.collection("users");
 
   const user = await users.findOne({ email });
-  console.log("this ran", user);
   if (!user) return json({ error: "Invalid credentials" }, { status: 400 });
 
   const match = await bcrypt.compare(password, user.password);
